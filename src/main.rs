@@ -1,17 +1,9 @@
-#![allow(dead_code)]
-
-mod btree;
-mod fbtree;
-mod list;
-
-use btree::*;
-use fbtree::*;
-use list::*;
+use maths_data_structures::*;
 
 fn main() {
-    List::<usize>::showoff();
+    list::List::<usize>::showoff();
     println!("----------");
-    FBTree::<usize>::showoff();
+    fbtree::FBTree::<usize>::showoff();
     println!("----------");
-    BTree::<usize>::showoff();
+    btree::BTree::<usize>::showoff();
 }

@@ -6,29 +6,23 @@ pub enum List<S> {
     NonEmpty { s: S, suffix: Box<List<S>> },
 }
 
+macro_rules! list {
+    (()) => {
+        List::Empty
+    };
+    (($s: expr, $suffix: tt)) => {
+        List::NonEmpty {
+            s: $s,
+            suffix: Box::new(list!($suffix)),
+        }
+    };
+}
+
 impl<S> List<S> {
     pub fn showoff() {
-        let list = List::NonEmpty {
-            s: 1,
-            suffix: Box::new(List::NonEmpty {
-                s: 2,
-                suffix: Box::new(List::NonEmpty {
-                    s: 2,
-                    suffix: Box::new(List::Empty),
-                }),
-            }),
-        };
+        let list = list!((1, (2, (2, ()))));
         println!("list: {}", list);
-        let list2 = List::NonEmpty {
-            s: 7,
-            suffix: Box::new(List::NonEmpty {
-                s: 8,
-                suffix: Box::new(List::NonEmpty {
-                    s: 9,
-                    suffix: Box::new(List::Empty),
-                }),
-            }),
-        };
+        let list2 = list!((7, (8, (9, ()))));
         println!("concatenate: {}", concatenate(&list, &list2));
         println!("rev: {}", rev(&list));
         println!("map: {}", map(|x| x * 2)(&list));

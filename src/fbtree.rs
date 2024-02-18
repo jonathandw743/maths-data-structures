@@ -11,12 +11,12 @@ pub enum FBTree<S> {
     },
 }
 
-macro_rules! fb_tree {
+macro_rules! fbtree {
     ([$s: expr, ($t0: tt, $t1: tt)]) => {
         FBTree::Branch {
             s: $s,
-            t0: Box::new(fb_tree!($t0)),
-            t1: Box::new(fb_tree!($t1)),
+            t0: Box::new(fbtree!($t0)),
+            t1: Box::new(fbtree!($t1)),
         }
     };
     ($s: expr) => {
@@ -26,7 +26,7 @@ macro_rules! fb_tree {
 
 impl<S> FBTree<S> {
     pub fn showoff() {
-        let fb_tree = fb_tree!([1, ([2, ([12, (13, 14)], [12, (13, 14)])], 5)]);
+        let fb_tree = fbtree!([1, ([2, ([12, (13, 14)], [12, (13, 14)])], 5)]);
         println!("fb_tree:\n{}", fb_tree);
         println!("lvs: {}", lvs(&fb_tree));
         println!("f_0:\n{}", f_0(&fb_tree));

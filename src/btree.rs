@@ -10,8 +10,45 @@ pub enum BTree<S> {
     },
 }
 
+macro_rules! btree {
+    ([$s: expr, (,)]) => {
+        BTree::Branch {
+            s: $s,
+            t0: Box::new(btree!()),
+            t1: Box::new(btree!()),
+        }
+    };
+    ([$s: expr, ($t0: tt,)]) => {
+        BTree::Branch {
+            s: $s,
+            t0: Box::new(btree!($t0)),
+            t1: Box::new(btree!()),
+        }
+    };
+    ([$s: expr, (,$t1: tt)]) => {
+        BTree::Branch {
+            s: $s,
+            t0: Box::new(btree!()),
+            t1: Box::new(btree!($t1)),
+        }
+    };
+    ([$s: expr, ($t0: tt, $t1: tt)]) => {
+        BTree::Branch {
+            s: $s,
+            t0: Box::new(btree!($t0)),
+            t1: Box::new(btree!($t1)),
+        }
+    };
+    () => {
+        BTree::Null
+    };
+}
+
 impl<S> BTree<S> {
     pub fn showoff() {
+        let b_tree = btree!([1, ([2, ([12, ([13, ([6, (,)],)], [14, (, [7, (,)])])], [12, ([13, (,)], [14, (,)])])], [5, (,)])]);
+        println!("b_tree:\n{}", b_tree);
+
         let b_tree = BTree::Null;
         let b_tree = add_element(&b_tree, 1);
         let b_tree = add_element(&b_tree, 2);
