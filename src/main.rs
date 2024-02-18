@@ -6,4 +6,6 @@ fn main() {
     fbtree::FBTree::<usize>::showoff();
     println!("----------");
     btree::BTree::<usize>::showoff();
+    println!("----------");
+    natural_number::NaturalNumber::showoff();
 }
