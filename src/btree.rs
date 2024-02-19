@@ -11,24 +11,11 @@ pub enum BTree<S> {
 }
 
 macro_rules! btree {
-    ([$s: expr, ($([$($t0: tt)+])?, $([$($t1: tt)+])?)]) => {
-        BTree::Branch {
-            s: $s,
-            t0: Box::new(btree!($([$($t0)+])?)),
-            t1: Box::new(btree!($([$($t1)+])?)),
-        }
-    };
-    () => {
-        BTree::Null
-    };
-}
-
-macro_rules! btree_alt {
     ($s: expr, ($($t0: tt)*), ($($t1: tt)*)) => {
         BTree::Branch {
             s: $s,
-            t0: Box::new(btree_alt!($($t0)*)),
-            t1: Box::new(btree_alt!($($t1)*)),
+            t0: Box::new(btree!($($t0)*)),
+            t1: Box::new(btree!($($t1)*)),
         }
     };
     () => {
@@ -39,7 +26,7 @@ macro_rules! btree_alt {
 impl<S> BTree<S> {
     pub fn showoff() {
         #[rustfmt::skip]
-        let b_tree_alt = btree_alt!(
+        let b_tree = btree!(
             1,
             (
                 2,
@@ -47,7 +34,11 @@ impl<S> BTree<S> {
                     12,
                     (
                         13,
-                        (6, (), ()),
+                        (
+                            6,
+                            (),
+                            ()
+                        ),
                         ()
                     ),
                     (
@@ -81,7 +72,6 @@ impl<S> BTree<S> {
             )
         );
         println!("b_tree:\n{}", b_tree);
-        println!("b_tree_alt:\n{}", b_tree_alt);
 
         let b_tree = BTree::Null;
         let b_tree = add_element(&b_tree, 1);
@@ -99,19 +89,22 @@ where
     S: Display,
 {
     fn string_with_indent(&self, indent_amount: usize, indent_string: &str) -> String {
+        let mut result = String::new();
+        for _ in 0..indent_amount {
+            result += indent_string;
+        }
         match self {
-            Self::Null => "".to_string(),
+            Self::Null => {
+                result += "\n";
+            }
             Self::Branch { s, t0, t1 } => {
-                let mut result = String::new();
-                for _ in 0..indent_amount {
-                    result += indent_string;
-                }
                 result += &format!("{}\n", s);
                 result += &t0.string_with_indent(indent_amount + 1, indent_string);
                 result += &t1.string_with_indent(indent_amount + 1, indent_string);
                 return result;
             }
         }
+        result
     }
 }
 
