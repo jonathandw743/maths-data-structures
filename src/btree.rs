@@ -11,32 +11,24 @@ pub enum BTree<S> {
 }
 
 macro_rules! btree {
-    ([$s: expr, (,)]) => {
+    ([$s: expr, ($([$($t0: tt)+])?, $([$($t1: tt)+])?)]) => {
         BTree::Branch {
             s: $s,
-            t0: Box::new(btree!()),
-            t1: Box::new(btree!()),
+            t0: Box::new(btree!($([$($t0)+])?)),
+            t1: Box::new(btree!($([$($t1)+])?)),
         }
     };
-    ([$s: expr, ($t0: tt,)]) => {
-        BTree::Branch {
-            s: $s,
-            t0: Box::new(btree!($t0)),
-            t1: Box::new(btree!()),
-        }
+    () => {
+        BTree::Null
     };
-    ([$s: expr, (,$t1: tt)]) => {
+}
+
+macro_rules! btree_alt {
+    ($s: expr, ($($t0: tt)*), ($($t1: tt)*)) => {
         BTree::Branch {
             s: $s,
-            t0: Box::new(btree!()),
-            t1: Box::new(btree!($t1)),
-        }
-    };
-    ([$s: expr, ($t0: tt, $t1: tt)]) => {
-        BTree::Branch {
-            s: $s,
-            t0: Box::new(btree!($t0)),
-            t1: Box::new(btree!($t1)),
+            t0: Box::new(btree_alt!($($t0)*)),
+            t1: Box::new(btree_alt!($($t1)*)),
         }
     };
     () => {
@@ -46,8 +38,50 @@ macro_rules! btree {
 
 impl<S> BTree<S> {
     pub fn showoff() {
-        let b_tree = btree!([1, ([2, ([12, ([13, ([6, (,)],)], [14, (, [7, (,)])])], [12, ([13, (,)], [14, (,)])])], [5, (,)])]);
+        #[rustfmt::skip]
+        let b_tree_alt = btree_alt!(
+            1,
+            (
+                2,
+                (
+                    12,
+                    (
+                        13,
+                        (6, (), ()),
+                        ()
+                    ),
+                    (
+                        14,
+                        (),
+                        (
+                            7,
+                            (),
+                            ()
+                        )
+                    )
+                ),
+                (
+                    12,
+                    (
+                        13,
+                        (),
+                        (
+                            7,
+                            (),
+                            ()
+                        )
+                    ),
+                    ()
+                )
+            ),
+            (
+                5,
+                (),
+                ()
+            )
+        );
         println!("b_tree:\n{}", b_tree);
+        println!("b_tree_alt:\n{}", b_tree_alt);
 
         let b_tree = BTree::Null;
         let b_tree = add_element(&b_tree, 1);
