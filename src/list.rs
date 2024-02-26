@@ -18,15 +18,13 @@ macro_rules! list {
     };
 }
 
-impl<S> List<S> {
-    pub fn showoff() {
-        let list = list!((1, (2, (2, ()))));
-        println!("list: {}", list);
-        let list2 = list!((7, (8, (9, ()))));
-        println!("concatenate: {}", concatenate(&list, &list2));
-        println!("rev: {}", rev(&list));
-        println!("map: {}", map(|x| x * 2)(&list));
-    }
+pub fn showoff() {
+    let list = list!((1, (2, (2, ()))));
+    println!("list: {}", list);
+    let list2 = list!((7, (8, (9, ()))));
+    println!("concatenate: {}", concatenate(&list, &list2));
+    println!("rev: {}", rev(&list));
+    println!("map: {}", map(|x| x * 2)(&list));
 }
 
 impl<S> Display for List<S>

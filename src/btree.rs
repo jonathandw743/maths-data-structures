@@ -23,65 +23,63 @@ macro_rules! btree {
     };
 }
 
-impl<S> BTree<S> {
-    pub fn showoff() {
-        #[rustfmt::skip]
-        let b_tree = btree!(
-            1,
+pub fn showoff() {
+    #[rustfmt::skip]
+    let b_tree = btree!(
+        1,
+        (
+            2,
             (
-                2,
+                12,
                 (
-                    12,
+                    13,
                     (
-                        13,
-                        (
-                            6,
-                            (),
-                            ()
-                        ),
+                        6,
+                        (),
                         ()
                     ),
-                    (
-                        14,
-                        (),
-                        (
-                            7,
-                            (),
-                            ()
-                        )
-                    )
+                    ()
                 ),
                 (
-                    12,
+                    14,
+                    (),
                     (
-                        13,
+                        7,
                         (),
-                        (
-                            7,
-                            (),
-                            ()
-                        )
-                    ),
-                    ()
+                        ()
+                    )
                 )
             ),
             (
-                5,
-                (),
+                12,
+                (
+                    13,
+                    (),
+                    (
+                        7,
+                        (),
+                        ()
+                    )
+                ),
                 ()
             )
-        );
-        println!("b_tree:\n{}", b_tree);
+        ),
+        (
+            5,
+            (),
+            ()
+        )
+    );
+    println!("b_tree:\n{}", b_tree);
 
-        let b_tree = BTree::Null;
-        let b_tree = add_element(&b_tree, 1);
-        let b_tree = add_element(&b_tree, 2);
-        let b_tree = add_element(&b_tree, -1);
-        let b_tree = add_element(&b_tree, 3);
+    let b_tree = BTree::Null;
+    let b_tree = add_element(&b_tree, 1);
+    let b_tree = add_element(&b_tree, 2);
+    let b_tree = add_element(&b_tree, -1);
+    let b_tree = add_element(&b_tree, 3);
 
-        println!("b_tree:\n{}", b_tree);
-        println!("search: {}", search(&b_tree, -1));
-    }
+    println!("b_tree:\n{}", b_tree);
+    println!("search: {}", search(&b_tree, -1));
 }
 
 impl<S> BTree<S>

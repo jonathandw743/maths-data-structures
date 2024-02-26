@@ -20,15 +20,13 @@ macro_rules! natural_number {
     };
 }
 
-impl NaturalNumber {
-    pub fn showoff() {
-        let m = natural_number!((S (S (S 0))));
-        let n = natural_number!((S (S 0)));
-        println!("m: {}", m);
-        println!("n: {}", n);
-        println!("m + n: {}", m.clone() + n.clone());
-        println!("m * n: {}", m * n);
-    }
+pub fn showoff() {
+    let m = natural_number!((S (S (S 0))));
+    let n = natural_number!((S (S 0)));
+    println!("m: {}", m);
+    println!("n: {}", n);
+    println!("m + n: {}", m.clone() + n.clone());
+    println!("m * n: {}", m * n);
 }
 
 impl Display for NaturalNumber {

@@ -24,13 +24,11 @@ macro_rules! fbtree {
     };
 }
 
-impl<S> FBTree<S> {
-    pub fn showoff() {
-        let fb_tree = fbtree!([1, ([2, ([12, (13, 14)], [12, (13, 14)])], 5)]);
-        println!("fb_tree:\n{}", fb_tree);
-        println!("lvs: {}", lvs(&fb_tree));
-        println!("f_0:\n{}", f_0(&fb_tree));
-    }
+pub fn showoff() {
+    let fb_tree = fbtree!([1, ([2, ([12, (13, 14)], [12, (13, 14)])], 5)]);
+    println!("fb_tree:\n{}", fb_tree);
+    println!("lvs: {}", lvs(&fb_tree));
+    println!("f_0:\n{}", f_0(&fb_tree));
 }
 
 impl<S> FBTree<S>

@@ -1,11 +1,16 @@
 use maths_data_structures::*;
 
 fn main() {
-    list::List::<usize>::showoff();
+    list::showoff();
     println!("----------");
-    fbtree::FBTree::<usize>::showoff();
+    fbtree::showoff();
     println!("----------");
-    btree::BTree::<usize>::showoff();
+    btree::showoff();
     println!("----------");
-    natural_number::NaturalNumber::showoff();
+    natural_number::showoff();
+    println!("----------");
+    // list_ref::ListRef::<i32>::showoff();
+    regex::showoff();
+    println!("----------");
+    dfa::showoff();
 }
